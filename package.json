@@ -1,0 +1,11 @@
+{
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel watch build index.html"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5",
+    "typescript": "^4.4.3"
+  }
+}
