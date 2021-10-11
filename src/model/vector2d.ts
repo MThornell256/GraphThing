@@ -8,11 +8,11 @@ export class Vector2d {
         return new Vector2d(this.x + v.x, this.y+v.y);
     }
 
-    isEqual(v: Vector2d) {
-        return v.x == this.x && v.y == this.y;
+    isEqual(other: Vector2d): boolean {
+        return other.x == this.x && other.y == this.y;
     }
 
-    toString() {
+    tostring(): string {
         return `(${this.x}, ${this.y})`;
     }
 }

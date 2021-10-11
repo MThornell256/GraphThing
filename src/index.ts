@@ -1,61 +1,42 @@
-//import { CanvasRenderer } from "./canvasRenderer";
-
 import { CanvasRenderer } from "./canvasRenderer";
+import { GraphController } from "./graphController";
+import { GraphView } from "./graphView";
+import { Vector2d } from "./model/vector2d";
 
+// Get Dom Elements
 const canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
-const canvasRender = new CanvasRenderer(canvas);
+const button1 = document.getElementById("button1") as HTMLButtonElement;
+const button2 = document.getElementById("button2") as HTMLButtonElement;
+const button3 = document.getElementById("button3") as HTMLButtonElement;
 
-canvas.addEventListener('mousemove', (event: Event)=> {
-    //console.log("mouseMove", event);
-    canvasRender.setMousePosition(event as MouseEvent);
-});
+// Set Up Us The Bomb
+const controller = new GraphController();
+const gridView = new GraphView(new CanvasRenderer(canvas));
+gridView.setModel(controller.model);
 
-canvas.addEventListener('mouseup', (event: Event)=> {
-    //console.log("mouseMove", event);
-    // canvasRender.setMousePosition(event as MouseEvent);
-    console.log('mouse up1');
-    event.preventDefault();
-    event.stopPropagation();
-});
+// Bind Buttons
+button1.onclick = () => {
+    console.log(controller.model.getData());
+}
 
-canvasRender.renderFrame();
+button2.onclick = () => {
+    console.log("Clicky Clicky 2");
+}
 
+button3.onclick = () => {
+    console.log("Clicky Clicky 3");
+}
 
-// const onMouseMove = (event: MouseEvent) => {
-//     canvasRender.setMousePosition(event);
-// }
-// //const context = canvas.getContext("2d");
+// Handle Mouse Events
+let down = new Vector2d();
+gridView.onMouseDown.subscribe(downPos => {
+    down = downPos;
+})
 
-// if(canvas != null) {
+gridView.onMouseUp.subscribe(upPos => {
+    controller.addEdge(down, upPos);
+})
 
-
-//     setCanvasSize(canvas);
-//     // drawCanvas(context);
-// }
-
-
-// function setCanvasSize(canvas: HTMLCanvasElement) {
-
-//     canvas.width = document.documentElement.clientWidth
-//     canvas.height = document.documentElement.clientHeight
-// }
-
-
-// function drawCanvas(context: CanvasRenderingContext2D) {
-
-//     const mousePos = {
-//         x: 0,
-//         y: 0,
-//     };
-//     const setMouse = (event: MouseEvent) => {
-
-
-//     }
-
-//     renderFrame();
-//     function renderFrame() {
-
-//     }
-// }
-
-
+// Start Render Loop
+gridView.renderFrame();
+(window as any).controller  = controller;

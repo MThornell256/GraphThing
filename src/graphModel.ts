@@ -1,14 +1,18 @@
-import { Vector2d } from "./vector2d";
+import { Edge } from "./model/edge";
+import { Vector2d } from "./model/vector2d";
 
-export interface Edge {
-
-    pointA: Vector2d;
-    pointB: Vector2d;
-}
-
-export class EdgeData {
+export class GraphModel {
 
     edges = new Set<Edge>();
+
+    constructor(
+        public width: number,
+        public height: number,
+    ) {
+
+        const e = new Edge(new Vector2d(2,2),new Vector2d(2,3));
+        this.addEdge(e);
+    }
 
     addEdge(edge: Edge) {
         const e = this.getEdge(edge)
@@ -21,11 +25,7 @@ export class EdgeData {
     }
 
     getEdge(edge: Edge) {
-
-        return Array.from(this.edges).find(e =>
-            (e.pointA.isEqual(edge.pointA) && e.pointB.isEqual(edge.pointB)) ||
-            (e.pointB.isEqual(edge.pointA) && e.pointA.isEqual(edge.pointB))
-        );
+        return Array.from(this.edges).find(e => e.isEqual(edge));
     }
 
     removeEdge(edge: Edge) {
