@@ -8,7 +8,7 @@ export class CanvasRenderer {
     context: CanvasRenderingContext2D;
 
     canvasPosition: Vector2d = new Vector2d(30,30); // this is the offset is worldspace
-    
+
     lastMousePos: Vector2d = new Vector2d() // used for calculating mouse drag distance
     mousePos: Vector2d = new Vector2d() // This is the grid coordinates
 
@@ -21,19 +21,19 @@ export class CanvasRenderer {
     }
 
     public setMousePosition(event: MouseEvent) {
-        
+
         this.mousePos = this.posToGrid(new Vector2d(event.clientX - this.canvasPosition.x, event.clientY - this.canvasPosition.y))
 
         const currentPosition =  new Vector2d(event.clientX, event.clientY)
-        
+
         if(this.isButtonDown(event.buttons, 1)) {
 
             // Middle Mouse Button (Button 3 is down)
             const moveDelta = new Vector2d(currentPosition.x -this.lastMousePos.x , currentPosition.y - this.lastMousePos.y)
             this.canvasPosition = this.canvasPosition.add(moveDelta);
-            console.log("scroll", this.canvasPosition)
+            //console.log("scroll", this.canvasPosition)
         }
-        
+
         this.lastMousePos = currentPosition;
     }
 
@@ -60,23 +60,23 @@ export class CanvasRenderer {
     setCanvasSize() {
 
         this.canvas.width = document.documentElement.clientWidth;
-        this.canvas.height = document.documentElement.clientHeight; 
+        this.canvas.height = document.documentElement.clientHeight;
     }
 
     renderFrame() {
 
         requestAnimationFrame(() => this.renderFrame());
-        
+
         this.setCanvasSize();
         // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.clearCanvas()
         this.context.translate(this.canvasPosition.x, this.canvasPosition.y);
-        
+
         this.drawGrid();
         // this.context.beginPath();
         // this.context.arc(95, 50, 40, 0, 2 * Math.PI);
         // this.context.stroke();
-        
+
         // Draw Mouse Pointer
         this.drawMousePointer();
     }
@@ -93,15 +93,19 @@ export class CanvasRenderer {
         const width = this.canvas.width;
         const height = this.canvas.height;
 
-        for (let x = 0; x < (width / gridSize); x++) {
-            for (let y = 0; y < (height / gridSize); y++) {
+        const gridCount = 100;
+
+        for (let x = 0; x < gridCount; x++) {
+            for (let y = 0; y < gridCount; y++) {
                 // Vert Lines
                 const vfrom = new Vector2d(x * gridSize, 0)
-                const vto = new Vector2d(x * gridSize, this.canvas.height)
+                // const vto = new Vector2d(x * gridSize, this.canvas.height)
+                const vto = new Vector2d(x * gridSize, gridSize * gridCount)
 
                 // Hori Lines
                 const hfrom = new Vector2d(0, y * gridSize)
-                const hto =  new Vector2d(this.canvas.width * gridSize, y * gridSize)
+                // const hto =  new Vector2d(this.canvas.width * gridSize, y * gridSize)
+                const hto =  new Vector2d(gridSize * gridCount, y * gridSize)
 
                 this.drawLine(vfrom, vto);
                 this.drawLine(hfrom, hto);
@@ -110,7 +114,7 @@ export class CanvasRenderer {
     }
 
     private clearCanvas() {
-        
+
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 

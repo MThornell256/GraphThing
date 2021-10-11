@@ -10,6 +10,14 @@ canvas.addEventListener('mousemove', (event: Event)=> {
     canvasRender.setMousePosition(event as MouseEvent);
 });
 
+canvas.addEventListener('mouseup', (event: Event)=> {
+    //console.log("mouseMove", event);
+    // canvasRender.setMousePosition(event as MouseEvent);
+    console.log('mouse up1');
+    event.preventDefault();
+    event.stopPropagation();
+});
+
 canvasRender.renderFrame();
 
 
@@ -41,12 +49,12 @@ canvasRender.renderFrame();
 //     };
 //     const setMouse = (event: MouseEvent) => {
 
-        
+
 //     }
 
 //     renderFrame();
 //     function renderFrame() {
-        
+
 //     }
 // }
 
