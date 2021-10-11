@@ -61,8 +61,6 @@ export class CanvasRenderer {
 
         this.canvas.width = this.gridSize * 100;
         this.canvas.height = this.gridSize * 100;
-        // this.canvas.width = document.documentElement.clientWidth;
-        // this.canvas.height = document.documentElement.clientHeight;
     }
 
     renderFrame() {
